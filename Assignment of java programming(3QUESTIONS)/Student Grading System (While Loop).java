@@ -3,62 +3,56 @@ import java.util.Scanner;
 public class StudentGrading {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter total number of students in the class: ");
-        int totalStudents = scanner.nextInt();
-        int[] attendance = new int[30];
-        int dayCount = 0;
+        int totalStudents = 0;
+        int passes = 0;
+        int fails = 0;
 
-        String choice = "";
-
-        do {
-            if (dayCount >= 30) {
-                System.out.println("Maximum of 30 days reached.");
+        while (true) {
+            System.out.print("Enter student's marks (0–100) or -1 to stop: ");
+            int marks = scanner.nextInt();
+            if (marks == -1) {
                 break;
             }
-
-            System.out.print("Enter number of students present for Day " + (dayCount + 1) + ": ");
-            int present = scanner.nextInt();
-
-            if (present < 0 || present > totalStudents) {
-                System.out.println("Invalid number! Must be between 0 and " + totalStudents);
+            if (marks < 0 || marks > 100) {
+                System.out.println("Marks must be between 0 and 100.");
                 continue;
             }
 
-            attendance[dayCount] = present;
-            dayCount++;
-
-            System.out.print("Do you want to enter attendance for another day? (yes/no): ");
-            choice = scanner.next();
-
-        } while (choice.equalsIgnoreCase("yes"));
-
-        if (dayCount == 0) {
-            System.out.println("No attendance records entered.");
-            return;
-        }
-
-        int totalAttendance = 0;
-        int lowDays = 0;
-        for (int i = 0; i < dayCount; i++) {
-            totalAttendance += attendance[i];
-            if (attendance[i] < (totalStudents / 2.0)) {
-                lowDays++;
+            totalStudents++;
+            String grade;
+            if (marks >= 80) {
+                grade = "A";
+            } else if (marks >= 70) {
+                grade = "B";
+            } else if (marks >= 60) {
+                grade = "C";
+            } else if (marks >= 50) {
+                grade = "D";
+            } else {
+                grade = "F";
             }
-        }
-        double average = (double) totalAttendance / dayCount;
-        double lowDaysPercentage = (lowDays * 100.0) / dayCount;
 
-        System.out.println("\n--- Attendance Report ---");
-        System.out.println("Day\tPresent");
-        for (int i = 0; i < dayCount; i++) {
-            System.out.println((i + 1) + "\t" + attendance[i]);
-        }
-        System.out.println("\n Average Attendance: %.2f students\n"+ average);
-        System.out.println("Days with attendance below 50%: % d (%.2f % of days)\n"+ lowDays + lowDaysPercentage);
+            if (marks >= 50) {
+                passes++;
+            } else {
+                fails++;
+            }
 
+            System.out.println("Student's Grade: " + grade);
+        }
+
+        System.out.println("\n--- Summary Report ---");
+        System.out.println("Total Students: " + totalStudents);
+        System.out.println("Passed: " + passes);
+        System.out.println("Failed: " + fails);
+
+        if (totalStudents > 0) {
+            double passRate = (passes * 100.0) / totalStudents;
+            System.out.println("Class Pass Rate: %.2f%%\n"+ passRate);
+        } else {
+            System.out.println("No students were entered.");
+        }
 
         scanner.close();
     }
 }
-
-
