@@ -1,3 +1,13 @@
+/***
+=======Names==========
+1)MUCYO Dieudonne 223009625
+2)UZABAKIRIHO Theogene 223009518
+3)IHIMBAZWE Genevieve 223014976
+4)NIYOGISUBIZO Benoit 223007262
+5)IKIREZI Denyse 223015956
+6)UWASHEMA Victorine 223012958
+7) UMWARI Justine
+***/
 package com.ATM_Simulation;
 
 class ATM {
@@ -38,4 +48,5 @@ class ATM {
             System.out.println("Insufficient balance or invalid amount!");
         }
     }
+
 }
