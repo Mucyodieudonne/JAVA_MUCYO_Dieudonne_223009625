@@ -1,0 +1,112 @@
+package com.page148;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class LoanApp extends JFrame implements ActionListener {
+
+    // Loan Calculator components
+    JTextField amountField, durationField, totalField;
+    JButton calculateBtn;
+
+    // Registration form components
+    JTextField nameField, userField;
+    JPasswordField passField;
+    JButton registerBtn, resetBtn;
+
+    public LoanApp() {
+        setTitle("Loan Calculator & Registration");
+        setLayout(new GridLayout(2, 1, 20, 20)); // Two panels stacked
+
+        // ---------------- Loan Panel ----------------
+        JPanel loanPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        loanPanel.setBorder(BorderFactory.createTitledBorder("Loan Calculator"));
+
+        loanPanel.add(new JLabel("Amount requested"));
+        amountField = new JTextField();
+        loanPanel.add(amountField);
+
+        loanPanel.add(new JLabel("Duration (year)"));
+        durationField = new JTextField();
+        loanPanel.add(durationField);
+
+        loanPanel.add(new JLabel("Total to return"));
+        totalField = new JTextField();
+        totalField.setEditable(false);
+        loanPanel.add(totalField);
+
+        calculateBtn = new JButton("Calculate");
+        calculateBtn.addActionListener(this);
+        loanPanel.add(calculateBtn);
+
+        // ---------------- Registration Panel ----------------
+        JPanel regPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        regPanel.setBorder(BorderFactory.createTitledBorder("Register"));
+
+        regPanel.add(new JLabel("Names"));
+        nameField = new JTextField();
+        regPanel.add(nameField);
+
+        regPanel.add(new JLabel("UserName"));
+        userField = new JTextField();
+        regPanel.add(userField);
+
+        regPanel.add(new JLabel("Password"));
+        passField = new JPasswordField();
+        regPanel.add(passField);
+
+        registerBtn = new JButton("Register");
+        resetBtn = new JButton("Reset");
+
+        resetBtn.addActionListener(this);
+        registerBtn.addActionListener(this);
+
+        regPanel.add(registerBtn);
+        regPanel.add(resetBtn);
+
+        // Add both panels to the frame
+        add(loanPanel);
+        add(regPanel);
+
+        setSize(400, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == calculateBtn) {
+            try {
+                double amount = Double.parseDouble(amountField.getText());
+                int years = Integer.parseInt(durationField.getText());
+
+                // Example interest rate: 0.6% per year
+                double interest = 0.006 * amount * years;
+                double total = amount + interest;
+
+                totalField.setText(String.valueOf(total));
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Please enter valid numbers");
+            }
+        }
+
+        if (e.getSource() == resetBtn) {
+            nameField.setText("");
+            userField.setText("");
+            passField.setText("");
+        }
+
+        if (e.getSource() == registerBtn) {
+            String name = nameField.getText();
+            String username = userField.getText();
+            String password = new String(passField.getPassword());
+
+            JOptionPane.showMessageDialog(this, "Registered:\nName: " + name + "\nUser: " + username);
+        }
+    }
+
+    public static void main(String[] args) {
+        new LoanApp();
+    }
+}
